@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOTEX - Dictionnaire</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #101827;
+  color: white;
+  text-align: center;
+  padding: 25px;
+}
+h1 { color: #38bdf8; }
+input, select, button {
+  padding: 13px;
+  margin: 8px;
+  border-radius: 8px;
+  border: none;
+  width: 85%;
+}
+button {
+  background: #38bdf8;
+  color: #101827;
+  font-weight: bold;
+}
+#result {
+  margin-top: 25px;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 10px;
+}
+</style>
+</head>
+<body>
+
+<h1>MOTEX</h1>
+<p>Le dictionnaire de toutes les langues</p>
+
+<select id="lang">
+<option value="fr">Français</option>
+<option value="en">English</option>
+<option value="ht">Kreyòl</option>
+</select>
+
+<input id="word" placeholder="Entrez un mot...">
+
+<button onclick="searchWord()">Rechercher</button>
+
+<div id="result">Bienvenue sur MOTEX !</div>
+
+<script>
+const dictionary = {
+bonjour: {
+fr: "Salutation utilisée pour accueillir quelqu'un.",
+en: "A greeting used to welcome someone.",
+ht: "Yon mo nou itilize pou salye yon moun."
+},
+amour: {
+fr: "Sentiment profond d'affection.",
+en: "A deep feeling of affection.",
+ht: "Yon santiman afeksyon ki pwofon."
+},
+maison: {
+fr: "Lieu où une personne habite.",
+en: "A place where someone lives.",
+ht: "Kote yon moun rete."
+}
+};
+
+function searchWord() {
+const word = document.getElementById("word").value.toLowerCase().trim();
+const lang = document.getElementById("lang").value;
+const result = dictionary[word];
+
+document.getElementById("result").innerText =
+result ? result[lang] : "Mot non trouvé dans MOTEX.";
+}
+</script>
+
+</body>
+</html>
