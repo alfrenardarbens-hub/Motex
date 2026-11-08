@@ -1,84 +1,230 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MOTEX - Dictionnaire</title>
+
 <style>
+* {
+  box-sizing: border-box;
+}
 body {
+  margin: 0;
   font-family: Arial, sans-serif;
   background: #101827;
   color: white;
-  text-align: center;
-  padding: 25px;
+  padding: 20px;
 }
-h1 { color: #38bdf8; }
-input, select, button {
-  padding: 13px;
-  margin: 8px;
-  border-radius: 8px;
+header {
+  text-align: center;
+  padding: 25px 0;
+}
+.logo {
+  font-size: 38px;
+  font-weight: bold;
+  color: #38bdf8;
+}
+header p {
+  color: #cbd5e1;
+}
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+h2 {
+  color: #38bdf8;
+}
+select, input, button {
+  width: 100%;
+  padding: 15px;
+  margin: 9px 0;
+  border-radius: 9px;
   border: none;
-  width: 85%;
+  font-size: 16px;
+}
+input {
+  background: white;
+  color: #111827;
+}
+select {
+  background: #e2e8f0;
 }
 button {
   background: #38bdf8;
   color: #101827;
   font-weight: bold;
+  cursor: pointer;
 }
-#result {
-  margin-top: 25px;
+.result {
   background: #1e293b;
   padding: 20px;
-  border-radius: 10px;
+  margin-top: 20px;
+  border-radius: 12px;
+  display: none;
+}
+.result h2 {
+  color: #38bdf8;
+}
+footer {
+  text-align: center;
+  color: #94a3b8;
+  margin-top: 50px;
+  font-size: 13px;
 }
 </style>
 </head>
+
 <body>
 
-<h1>MOTEX</h1>
-<p>Le dictionnaire de toutes les langues</p>
+<header>
+  <div class="logo">MOTEX</div>
+  <p>Votre dictionnaire numérique multilingue</p>
+  <p>Français • English • Kreyòl</p>
+</header>
 
-<select id="lang">
-<option value="fr">Français</option>
-<option value="en">English</option>
-<option value="ht">Kreyòl</option>
+<div class="container">
+
+<h2>Rechercher un mot</h2>
+
+<input
+  type="text"
+  id="search"
+  placeholder="Écrivez un mot..."
+>
+
+<select id="language">
+  <option value="fr">Français</option>
+  <option value="en">English</option>
+  <option value="ht">Kreyòl Ayisyen</option>
 </select>
 
-<input id="word" placeholder="Entrez un mot...">
+<button onclick="searchWord()">RECHERCHER</button>
 
-<button onclick="searchWord()">Rechercher</button>
+<div class="result" id="result"></div>
 
-<div id="result">Bienvenue sur MOTEX !</div>
+</div>
+
+<footer>
+  © 2026 MOTEX - Tous droits réservés.
+  <p>Les mots ouvrent les portes du savoir.</p>
+</footer>
 
 <script>
-const dictionary = {
-bonjour: {
-fr: "Salutation utilisée pour accueillir quelqu'un.",
-en: "A greeting used to welcome someone.",
-ht: "Yon mo nou itilize pou salye yon moun."
+
+const dictionary = [
+{
+  words: ["amour", "love", "lanmou"],
+  fr: "Sentiment profond d'affection envers une personne.",
+  en: "A deep feeling of affection for someone.",
+  ht: "Santiman fò ou genyen pou yon moun."
 },
-amour: {
-fr: "Sentiment profond d'affection.",
-en: "A deep feeling of affection.",
-ht: "Yon santiman afeksyon ki pwofon."
+{
+  words: ["maison", "house", "kay"],
+  fr: "Bâtiment destiné à servir de logement.",
+  en: "A building where people live.",
+  ht: "Kote moun rete pou yo viv."
 },
-maison: {
-fr: "Lieu où une personne habite.",
-en: "A place where someone lives.",
-ht: "Kote yon moun rete."
+{
+  words: ["eau", "water", "dlo"],
+  fr: "Liquide transparent indispensable à la vie.",
+  en: "A clear liquid essential for life.",
+  ht: "Likid transparan ki nesesè pou lavi."
+},
+{
+  words: ["livre", "book", "liv"],
+  fr: "Ensemble de pages contenant des textes.",
+  en: "A collection of pages containing text.",
+  ht: "Yon seri paj ki gen tèks ladan."
+},
+{
+  words: ["école", "school", "lekòl"],
+  fr: "Établissement où l'on apprend.",
+  en: "A place where people learn.",
+  ht: "Kote moun ale pou yo aprann."
+},
+{
+  words: ["ami", "friend", "zanmi"],
+  fr: "Personne avec laquelle on entretient une relation d'amitié.",
+  en: "A person you know and like.",
+  ht: "Yon moun ou gen bon relasyon avè l."
+},
+{
+  words: ["bonjour", "hello", "bonjou"],
+  fr: "Mot utilisé pour saluer quelqu'un.",
+  en: "A greeting used when meeting someone.",
+  ht: "Mo nou itilize pou salye yon moun."
+},
+{
+  words: ["merci", "thank you", "mèsi"],
+  fr: "Expression utilisée pour montrer sa gratitude.",
+  en: "An expression used to show gratitude.",
+  ht: "Mo nou itilize pou montre rekonesans."
+},
+{
+  words: ["soleil", "sun", "solèy"],
+  fr: "Étoile qui éclaire et réchauffe la Terre.",
+  en: "The star that gives Earth light and heat.",
+  ht: "Zetwal ki bay Latè limyè ak chalè."
+},
+{
+  words: ["travail", "work", "travay"],
+  fr: "Activité réalisée pour produire quelque chose.",
+  en: "An activity done to produce something.",
+  ht: "Aktivite yon moun fè pou pwodui yon bagay."
 }
-};
+];
 
 function searchWord() {
-const word = document.getElementById("word").value.toLowerCase().trim();
-const lang = document.getElementById("lang").value;
-const result = dictionary[word];
 
-document.getElementById("result").innerText =
-result ? result[lang] : "Mot non trouvé dans MOTEX.";
+  const word = document
+    .getElementById("search")
+    .value.trim().toLowerCase();
+
+  const language = document
+    .getElementById("language").value;
+
+  const result = document.getElementById("result");
+
+  if (!word) {
+    result.style.display = "block";
+    result.innerHTML = "Veuillez écrire un mot.";
+    return;
+  }
+
+  const found = dictionary.find(item =>
+    item.words.some(w => w.toLowerCase() === word)
+  );
+
+  result.style.display = "block";
+
+  if (found) {
+    const title = {
+      fr: "Définition française",
+      en: "English definition",
+      ht: "Definisyon an kreyòl"
+    };
+
+    result.innerHTML =
+      "<h2>" + found.words.join(" / ") + "</h2>" +
+      "<strong>" + title[language] + "</strong>" +
+      "<p>" + found[language] + "</p>";
+  } else {
+    result.innerHTML =
+      "<h2>Mot introuvable</h2>" +
+      "<p>Ce mot n'est pas encore dans notre dictionnaire.</p>";
+  }
 }
+
+document.getElementById("search")
+.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    searchWord();
+  }
+});
+
 </script>
 
 </body>
 </html>
-                 
